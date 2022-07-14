@@ -46,4 +46,8 @@ function xhrReplace(): void {
   })
 }
 
+function on() {
+  
+}
+
 xhrReplace()
