@@ -1,5 +1,5 @@
 import { IAnyObject } from './common'
-
+export const defaultFunctionName = '<anonymous>'
 
 
 /**
@@ -20,4 +20,26 @@ import { IAnyObject } from './common'
       source[name] = wrapped
     }
   }
+}
+
+export function on(
+  target: { addEventListener: Function }, 
+  eventName: String, 
+  handler: Function,
+  options: boolean | unknown = false
+): void{
+  target.addEventListener(eventName, handler, options)
+}
+
+export function getFunctionName(fn: Function):string {
+  if(!fn || typeof fn !== 'function') {
+    return defaultFunctionName
+  }
+
+  return fn.name || defaultFunctionName
+}
+
+export function getLocationHref(): string {
+  if(typeof document === 'undefined' || document.location == null) return ''
+  return document.location.href
 }
