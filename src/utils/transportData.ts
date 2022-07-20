@@ -12,6 +12,9 @@ export class TransportData{
 
     return isSdkDsn
   }
+  send() {
+    
+  }
 }
 
 const transportData = new TransportData()

@@ -9,7 +9,7 @@ export interface ReplaceHandler {
 type ReplaceCallback = (data: any) => void
 
 export interface MITOHttp {
-  type: HTTPTYPE
+  type ?: HTTPTYPE
   method?: string
   url?: string
   status?: number
@@ -63,6 +63,6 @@ export enum ERRORTYPES {
   ROUTE_ERROR = 'ROUTE_ERROR'
 }
 
-export interface BreadcrumbPushData {
-  type: BREADCRUMBTYPES,
-  data: R
+// export interface BreadcrumbPushData {
+//   type: BREADCRUMBTYPES,
+//   data: R

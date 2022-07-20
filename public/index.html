@@ -10,9 +10,13 @@
 
   <script>
     //构造表单数据
-    var formData = new FormData();
-    formData.append('username', 'johndoe');
-    formData.append('id', 123456);
+    // var formData = new FormData();
+    // formData.append('username', 'johndoe');
+    // formData.append('id', 123456);
+    let obj = {
+      username:'johndoe',
+      id: '123456'
+    }
     //创建xhr对象 
     var xhr = new XMLHttpRequest();
     //设置xhr请求的超时时间
@@ -27,7 +31,7 @@
           alert(this.responseText);
       }
     }
-    xhr.send(formData);
+    xhr.send(obj);
   </script>
 </body>
 </html>

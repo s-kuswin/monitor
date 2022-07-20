@@ -1,5 +1,15 @@
 import { replaceOld, on, getFunctionName, getLocationHref } from "./utils/helpers";
-import { MITOXMLHttpRequest, EVENTTYPES, BREADCRUMBTYPES, MITOHttp, ReplaceHandler, ReplaceFlag, Handlers, HTTP_CODE, ERRORTYPES } from "./utils/common";
+import { 
+  MITOXMLHttpRequest, 
+  EVENTTYPES, 
+  BREADCRUMBTYPES, 
+  MITOHttp, 
+  ReplaceHandler, 
+  ReplaceFlag, 
+  Handlers, 
+  HTTP_CODE, 
+  HTTPTYPE,
+  ERRORTYPES } from "./utils/common";
 import { variableTypeDetection } from "./utils/is";
 import { transportData } from "./utils/transportData";
 import { fromHttpStatus, SpanStatus } from "./utils/httpStatus";
@@ -8,7 +18,13 @@ const handleEvents = {
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void{
     const isError = data.status === 0 || data.status === HTTP_CODE.BAD_REQUEST || data.status  && data.status > HTTP_CODE.UNAUTHORIZED
     const result = httpTransform(data)
+    console.log('navigator' in window, 'sendBeacon' in navigator);
 
+    // 如果是错误选择立即上报
+    if(isError) {
+      
+
+    }
   }
   // handleError(): void
   // handleConsole(): void
@@ -33,6 +49,7 @@ function xhrReplace(): void {
       this.mito_xhr = {
         method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
         url: args[1],
+        type: HTTPTYPE.XHR
       }
 
       if(this.mito_xhr.method === 'POST' && transportData.isSdkTransportUrl(url)) {
@@ -46,10 +63,17 @@ function xhrReplace(): void {
     return function (this:MITOXMLHttpRequest, ...args: any[]):void {
       console.log('loadend' in this,'addEventListener' in this, this);
       on(this, 'loadend', function(this: MITOXMLHttpRequest) {
+        const { status, responseType, response } = this
         this.mito_xhr = this.mito_xhr || {}
         if(this.mito_xhr?.isSdkUrl) return
         this.mito_xhr.reqData = args[0]
+        this.mito_xhr.status = status
         //  请求结束后触发
+        console.log(this,'this', args);
+        if(['', 'json', 'text'].indexOf(responseType) !== -1) {
+          this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
+        }
+        
         triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
       })
       
