@@ -22,8 +22,7 @@ const handleEvents = {
 
     // 如果是错误选择立即上报
     if(isError) {
-      
-
+      transportData.send(result)
     }
   }
   // handleError(): void
