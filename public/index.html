@@ -7,6 +7,13 @@
 </head>
 <body>
   <script src="/dist/bundle.js"></script>
+  <script>
+    console.log(MITO);
+    new MITO.monitorInit({
+      trackDsn: 'http://localhost:3200/error-collection',
+      errorDsn: 'http://localhost:3200/error-collection'
+    })
+  </script>
 
   <script>
     //构造表单数据
@@ -32,6 +39,7 @@
       }
     }
     xhr.send(obj);
+    var a = b
   </script>
 </body>
 </html>

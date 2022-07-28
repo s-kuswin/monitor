@@ -1,10 +1,18 @@
-import { Queue } from './queue';
+import { InitOptions } from '../utils/common';
+import { Queue } from '../utils/queue';
 export class TransportData{
-  errorDsn = 'http://localhost:3200/error-collection/post'
+  errorDsn = ''
   trackDsn = ''
   queue: Queue
   constructor() {
     this.queue = new Queue
+  }
+  bindOptions(options: InitOptions = {}):void {
+    const { trackDsn, errorDsn } = options
+    console.log(trackDsn, errorDsn,'trackDsn, errorDsn');
+    
+    this.errorDsn = errorDsn || ''
+    this.trackDsn = trackDsn || ''
   }
   isSdkTransportUrl(targetUrl: string):boolean {
     let isSdkDsn = false
@@ -14,13 +22,11 @@ export class TransportData{
     if(this.trackDsn && targetUrl.indexOf(this.trackDsn) !== - 1) {
       isSdkDsn = true
     }
-
     return isSdkDsn
   }
   sendBeacon(data:any, url:string):void {
     const requestFun = () => {
-      // navigator.sendBeacon(url,JSON.stringify(data))
-      navigator.sendBeacon(url,'错误收集')
+      navigator.sendBeacon(url,JSON.stringify(data))
     }
     this.queue.addFn(requestFun)
   }

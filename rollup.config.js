@@ -13,6 +13,7 @@ export default {
     // iife: ()()
     // umd: 兼容 amd + commonjs 不支持es6导入
     format: 'iife',
+    name: 'MITO',
     sourcemap: true, // ts中的sourcemap也得变为true
   },
   plugins:[// 这个插件是有执行顺序的

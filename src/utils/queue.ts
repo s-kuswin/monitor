@@ -15,8 +15,6 @@ export class Queue {
       fn()
       return
     }
-    console.log(fn, 'fn');
-    
     this.stack.push(fn)
     if(!this.isFlushing) {
       this.isFlushing = true
@@ -29,7 +27,6 @@ export class Queue {
     this.isFlushing = false    
     for(let i = 0; i < temp.length; i++) {
       temp[i]()
-      console.log(temp[i]);
     }
   }
 }

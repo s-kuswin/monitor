@@ -43,3 +43,5 @@ export function getLocationHref(): string {
   if(typeof document === 'undefined' || document.location == null) return ''
   return document.location.href
 }
+
+export const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/

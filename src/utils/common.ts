@@ -25,6 +25,12 @@ export interface MITOXMLHttpRequest extends XMLHttpRequest {
   mito_xhr?: MITOHttp
 }
 
+export interface ResourceErrorTarget{
+  src?: string
+  href?: string
+  localName?: string
+}
+
 export type viodFun = () => void
 
 export type ReplaceFlag = { 
@@ -38,7 +44,8 @@ export enum HTTPTYPE {
   XHR = 'xhr'
 }
 export enum EVENTTYPES {
-  XHR = 'xhr'
+  XHR = 'xhr',
+  ERROR = 'error'
 }
 
 export enum BREADCRUMBTYPES {
@@ -66,3 +73,8 @@ export enum ERRORTYPES {
 // export interface BreadcrumbPushData {
 //   type: BREADCRUMBTYPES,
 //   data: R
+
+export interface InitOptions {
+  trackDsn?: string,
+  errorDsn?: string
+}
