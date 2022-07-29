@@ -52,9 +52,11 @@ export const handleEvents = {
       level: 1,
       stack: [element]
     }
-  }
+  },
   // handleConsole(): void
   // handleHistory(): void
   // handleHashchange(): void
-  // handleUnhandleRejection(): void
+  handleUnhandleRejection(): void {
+
+  }
 }

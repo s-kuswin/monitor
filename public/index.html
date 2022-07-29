@@ -26,6 +26,9 @@
     }
     //创建xhr对象 
     var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      console.log(xhr.readyState,'xhr.readyState', xhr.getResponseHeader('X-Sentry-Rate-Limits'));
+    }
     //设置xhr请求的超时时间
     xhr.timeout = 3000;
     //设置响应返回的数据格式
@@ -39,7 +42,9 @@
       }
     }
     xhr.send(obj);
-    var a = b
+    var a
+    const d = null
+    a = d.d
   </script>
 </body>
 </html>

@@ -9,8 +9,6 @@ export class TransportData{
   }
   bindOptions(options: InitOptions = {}):void {
     const { trackDsn, errorDsn } = options
-    console.log(trackDsn, errorDsn,'trackDsn, errorDsn');
-    
     this.errorDsn = errorDsn || ''
     this.trackDsn = trackDsn || ''
   }
