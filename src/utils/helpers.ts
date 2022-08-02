@@ -45,3 +45,13 @@ export function getLocationHref(): string {
 }
 
 export const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/
+
+
+export function HTMLElementAsString(target: HTMLElement):string {
+  const tagName = target.tagName.toLowerCase()
+  let classNames = target.classList.value
+  classNames = classNames !== '' ? `class="${classNames}"` : ''
+  const id = target.id ? `id="${target.id}"` : ''
+  const innerText = target.innerText
+  return `<${tagName} ${id} ${classNames}>${innerText}</${tagName}>`
+}

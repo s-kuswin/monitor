@@ -24,7 +24,9 @@ export class TransportData{
   }
   sendBeacon(data:any, url:string):void {
     const requestFun = () => {
-      navigator.sendBeacon(url,JSON.stringify(data))
+      const spliceStr = url.indexOf('?') === -1 ? '?' : '&'
+      const upUrl = `${url}${spliceStr}data=${encodeURIComponent(JSON.stringify(data))}`
+      navigator.sendBeacon(upUrl)
     }
     this.queue.addFn(requestFun)
   }

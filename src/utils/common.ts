@@ -45,11 +45,15 @@ export enum HTTPTYPE {
 }
 export enum EVENTTYPES {
   XHR = 'xhr',
-  ERROR = 'error'
+  ERROR = 'error',
+  UNHANDLEDREJECTION = 'unhandledrejection',
+  CONSOLEERROR = 'consoleerror',
+  DOM = 'dom',
 }
 
 export enum BREADCRUMBTYPES {
-  XHR = 'Xhr'
+  XHR = 'Xhr',
+  CLICK='click'
 }
 
 export enum HTTP_CODE {
@@ -77,4 +81,9 @@ export enum ERRORTYPES {
 export interface InitOptions {
   trackDsn?: string,
   errorDsn?: string
+}
+
+export interface TriggerConsole {
+  args: any[]
+  level: string
 }

@@ -1,7 +1,7 @@
 import { transportData } from "../core/transportData";
 import { httpTransform } from "../core/transformData";
-import { BREADCRUMBTYPES, MITOHttp, HTTP_CODE, ResourceErrorTarget, ERRORTYPES} from "../utils/common";
-import { ERROR_TYPE_RE, getLocationHref } from "../utils/helpers";
+import { BREADCRUMBTYPES, MITOHttp, HTTP_CODE, ResourceErrorTarget, ERRORTYPES, TriggerConsole} from "../utils/common";
+import { ERROR_TYPE_RE, getLocationHref, HTMLElementAsString } from "../utils/helpers";
 
 export const handleEvents = {
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void{
@@ -29,34 +29,45 @@ export const handleEvents = {
     transportData.send(result)
   },
   handleNoErrorInstance(message: string, filename: string, lineno: number, colno: number) {
-    let name: string | ERRORTYPES = ERRORTYPES.UNKNOWN
     const url = filename || getLocationHref()
-    let msg = message
-    const matches = message.match(ERROR_TYPE_RE)
-    console.log(matches,'matches');
-    if(matches && matches[1]) {
-      name = matches[1]
-      msg = matches[2]
-    }
-
-    const element = {
-      url,
-      line: lineno,
-      col: colno
-    }
-    
     return {
       url,
-      name,
-      message: msg,
+      message: message,
       level: 1,
-      stack: [element]
+      lineno: lineno,
+      colno: colno
     }
   },
-  // handleConsole(): void
+  handleConsoleError(data: TriggerConsole):void {
+    const result = {
+      type: ERRORTYPES.LOG_ERROR,
+      data: data,
+      level: data.level
+    }
+  
+    transportData.send(result)
+  },
   // handleHistory(): void
   // handleHashchange(): void
-  handleUnhandleRejection(): void {
-
+  handleUnhandleRejection(ev: PromiseRejectionEvent): void {
+    console.log(ev.reason, 'handleUnhandleRejection');
+    
+    let data = {
+      type: ERRORTYPES.PROMISE_ERROR,
+      message: ev.reason.toString(),
+      url: getLocationHref(),
+      level: 1
+    }
+    transportData.send(data)
+  },
+  handleDom(e: any) {
+    console.log('handleDom============',e.data.target as HTMLElement);
+    const htmlString = HTMLElementAsString(e.data.target as HTMLElement)
+    const data = {
+      type: BREADCRUMBTYPES.CLICK,
+      data: htmlString,
+      level: 0
+    }
+    transportData.send(data)
   }
 }

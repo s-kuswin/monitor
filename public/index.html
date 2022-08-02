@@ -6,12 +6,15 @@
   <title>Document</title>
 </head>
 <body>
+  <div>
+    <button class="btn" onclick="handlelick()">ooooo</button>
+  </div>
   <script src="/dist/bundle.js"></script>
   <script>
     console.log(MITO);
     new MITO.monitorInit({
-      trackDsn: 'http://localhost:3200/error-collection',
-      errorDsn: 'http://localhost:3200/error-collection'
+      trackDsn: 'http://localhost:3082/error-collection',
+      errorDsn: 'http://localhost:3082/error-collection'
     })
   </script>
 
@@ -20,6 +23,13 @@
     // var formData = new FormData();
     // formData.append('username', 'johndoe');
     // formData.append('id', 123456);
+    const promise = new Promise((resolve) => {
+      resolve(c)
+    })
+    function handlelick() {
+      console.log('点击事件');
+    }
+    console.error('222');
     let obj = {
       username:'johndoe',
       id: '123456'

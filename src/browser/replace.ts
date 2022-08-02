@@ -17,6 +17,15 @@ export function replace(type: EVENTTYPES) {
     case EVENTTYPES.ERROR:
       listenError()
       break;
+    case EVENTTYPES.CONSOLEERROR:
+      consoleErrorReplace()
+      break;
+    case EVENTTYPES.UNHANDLEDREJECTION:
+      unhandledrejectionReplace()
+      break;
+    case EVENTTYPES.DOM:
+      domReplace()
+      break;
     default:
       break;
   }
@@ -80,6 +89,39 @@ function listenError():void {
       triggerHandlers(EVENTTYPES.ERROR, e)
     }
   )
+}
+
+function consoleErrorReplace():void {
+  if(!('console' in window)) return;
+  const logType = 'error'
+
+  if(!(logType in window.console)) return;
+  replaceOld(window.console, logType,function(originalConsoleError):Function {
+    return function(...args:any[]):void {
+      if(originalConsoleError) {
+        triggerHandlers(EVENTTYPES.CONSOLEERROR, {args, logType})
+        originalConsoleError.apply(window.console, args)
+      }
+    }
+  })
+}
+
+function unhandledrejectionReplace():void {
+  console.log('unhandledrejection' in window);
+  on(window, EVENTTYPES.UNHANDLEDREJECTION, function(ev:any) {
+    console.log(ev, 'EVENTTYPES.UNHANDLEDREJECTION');
+    triggerHandlers(EVENTTYPES.UNHANDLEDREJECTION, ev)
+  })
+}
+
+function domReplace():void {
+  if(!('document' in window)) return
+  on(window.document,'click',function(e:any) {
+    triggerHandlers(EVENTTYPES.DOM, {
+      type: 'click',
+      data: e
+    })
+  })
 }
 
 const replaceFlag: ReplaceFlag= {}
